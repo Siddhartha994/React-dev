@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css'; // import custom css after bootstrap css so it can be overriden
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
