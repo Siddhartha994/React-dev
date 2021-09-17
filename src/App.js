@@ -21,7 +21,7 @@ class App extends Component {
             <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
           </div>
         </Navbar>
-        <Menu dishes = {this.state.dishes} />   {/* dishes passed as parameter to menuComponent */}
+        <Menu dishes = {this.state.dishes} />   
       </div>
     );
   }
