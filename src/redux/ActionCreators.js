@@ -1,15 +1,54 @@
 import * as ActionTypes from './ActionTypes';
 import {baseUrl} from '../shared/baseUrl'
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: {
+    payload: comment
+});
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) =>  {    // thunk: ie. function of a function
+    
+    const newComment = {
         dishId: dishId,
         rating: rating,
         author: author,
         comment: comment
+    };
+    newComment.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'comments', {    
+        // structure of request message
+        method: 'POST',
+        body: JSON.stringify(newComment),  //enclosing comment(js-object) into json file
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })  
+    //same error handling
+    .then(  response => { 
+        if (response.ok){
+            return response;
+        }
+        else{ 
+            var error = new error('Error'+ response.status + ':' + response.statusText);
+            error.response = response; 
+            throw error;    
+        }
+    },
+    error => {  
+        var errmess = new Error(error.message);
+        throw errmess; 
     }
-});
+    )
+    .then(response => response.json())  // response coming in from server will contail updated comment posted to server site,
+                                        // server will include an ID into the comment before sending it
+
+    .then(response => dispatch(addComment(response)))   // updated comment posted into redux store by dispatching
+    .catch( error => {console.log('Post comments',error.message)
+        alert('Your comment could not be posted /n Error: ' + error.message); })
+}
+
 
 export const fetchDishes = () => (dispatch) => {
 
