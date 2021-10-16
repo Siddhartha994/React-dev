@@ -19,7 +19,9 @@ class Contact extends Component {
     //  connects input to state
     handleSubmit(values){    
         console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
+
+        // submit the form data using the postFeedback() method by passing the feedback form data.
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();     //reset form after submitting
     }    
     render(){
